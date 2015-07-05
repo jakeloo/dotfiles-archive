@@ -27,6 +27,7 @@ NeoBundle 'gregsexton/gitv.git'
 NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Xuyuanp/nerdtree-git-plugin'
+NeoBundle 'plasticboy/vim-markdown'
 
 call neobundle#end()
 
@@ -78,6 +79,4 @@ let g:nerdtree_tabs_open_on_gui_startup=0
 nmap ,n :NERDTreeToggle<CR>
 nmap ,m :NERDTreeFind<CR>
 
-
-
-
+let g:vim_markdown_folding_disabled=1
