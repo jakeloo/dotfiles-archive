@@ -28,7 +28,10 @@ NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Xuyuanp/nerdtree-git-plugin'
 NeoBundle 'plasticboy/vim-markdown'
-
+NeoBundle 'cakebaker/scss-syntax.vim'
+NeoBundle 'mustache/vim-mustache-handlebars'
+NeoBundle 'othree/html5.vim'
+ 
 call neobundle#end()
 
  " Required:
