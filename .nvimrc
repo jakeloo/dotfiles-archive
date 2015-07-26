@@ -85,3 +85,7 @@ nmap ,n :NERDTreeToggle<CR>
 nmap ,m :NERDTreeFind<CR>
 
 let g:vim_markdown_folding_disabled=1
+let g:ctrlp_custom_ignore = {
+      \  'dir' : 'node_modules'
+      \}
+
