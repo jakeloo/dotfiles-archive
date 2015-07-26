@@ -32,6 +32,7 @@ NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'mustache/vim-mustache-handlebars'
 NeoBundle 'othree/html5.vim'
 NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'rking/ag.vim'
  
 call neobundle#end()
 
