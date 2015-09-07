@@ -33,7 +33,8 @@ NeoBundle 'mustache/vim-mustache-handlebars'
 NeoBundle 'othree/html5.vim'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'rking/ag.vim'
- 
+NeoBundle 'bling/vim-airline'
+
 call neobundle#end()
 
  " Required:
@@ -63,6 +64,9 @@ set smartindent
 colorscheme base16-ocean
 set background=dark
 
+" Always show status 
+set laststatus=2
+
 " Remap arrow keys
 noremap <Left> <NOP>
 noremap <Right> <NOP>
@@ -85,7 +89,12 @@ nmap ,n :NERDTreeToggle<CR>
 nmap ,m :NERDTreeFind<CR>
 
 let g:vim_markdown_folding_disabled=1
+
 let g:ctrlp_custom_ignore = {
-      \  'dir' : 'node_modules'
+      \  'dir' : '(node_modules|virtualenv)'
       \}
+
+
+
+
 
