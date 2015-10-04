@@ -94,7 +94,49 @@ let g:ctrlp_custom_ignore = {
       \  'dir' : '(node_modules|virtualenv)'
       \}
 
+" Spell Check toggle
+let g:myLangList=["nospell","en_gb"]
+function! ToggleSpell()
+  if !exists( "b:myLang" )
+    if &spell
+      let b:myLang=index(g:myLangList, &spelllang)
+    else
+      let b:myLang=0
+    endif
+  endif
+  let b:myLang=b:myLang+1
+  if b:myLang>=len(g:myLangList) | let b:myLang=0 | endif
+  if b:myLang==0
+    setlocal nospell
+  else
+    execute "setlocal spell spelllang=".get(g:myLangList, b:myLang)
+  endif
+  echo "spell checking language:" g:myLangList[b:myLang]
+endfunction
+command! ToggleSpell call ToggleSpell()
+nmap <silent> <F8> :call ToggleSpell()<CR>
 
-
-
-
+"Spell suggestion under cursor
+nnoremap <silent><F2> :cal SpellSuggest()<CR>
+function! SpellSuggest()
+  let s = substitute(system("echo ".expand("<cword>")." | aspell -a -W2 | grep '^&'"), "^.*:\\s\\(.*\\)\\n", "\\1,", "")
+  if s != ""
+    let slength = strlen(s)
+    let end = 0
+    let i = 0
+    while end != slength
+      let i = i + 1
+      let w = matchstr(s, "^\\%(.\\{-}\\zs[^ ,]\\+\\ze,\\)\\{".i."}")
+      echon "(".i.")".w." "
+      let end = matchend(s, w.",")
+    endwhile
+    echo ""
+    let c = input("Replace with: ")
+    if c =~ "^[1-9]\\d*$" && c > 0 && c <= i
+      execute "normal! ciw".matchstr(s, "^\\%(.\\{-}\\zs[^ ,]\\+\\ze,\\)\\{".c."}")
+    endif
+  else
+    echo "No suggestions"
+  endif
+endfunction
+command! SpellSuggest call SpellSuggest()
