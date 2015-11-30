@@ -1,6 +1,3 @@
-" Note: Skip initialization for vim-tiny or vim-small.
-if 0 | endif
-
 if has('vim_starting')
   if &compatible
     set nocompatible               " Be iMproved
@@ -44,6 +41,10 @@ filetype plugin indent on
  " this will conveniently prompt you to install them.
 NeoBundleCheck
 
+" colorsss
+colorscheme base16-ocean
+set background=dark
+
 """""
 " END OF NEO BUNDLE
 """""
@@ -59,13 +60,22 @@ set softtabstop=2 shiftwidth=2 expandtab
 
 " Set outside file
 set autoread
+
+"Copy indent from current line when starting a new line
+set autoindent 
+"when we autoindent, backspace will delete the entire tab width, not just individual spaces
+set smarttab 
 set smartindent
 
-colorscheme base16-ocean
-set background=dark
 
 " Always show status 
 set laststatus=2
+
+"searching
+set hlsearch                    " highlight matches
+set incsearch                   " incremental searching
+set ignorecase                  " searches are case insensitive...
+set smartcase                   " ... unless they contain at least one capital letter
 
 " Remap arrow keys
 noremap <Left> <NOP>
@@ -95,48 +105,48 @@ let g:ctrlp_custom_ignore = {
       \}
 
 " Spell Check toggle
-let g:myLangList=["nospell","en_gb"]
-function! ToggleSpell()
-  if !exists( "b:myLang" )
-    if &spell
-      let b:myLang=index(g:myLangList, &spelllang)
-    else
-      let b:myLang=0
-    endif
-  endif
-  let b:myLang=b:myLang+1
-  if b:myLang>=len(g:myLangList) | let b:myLang=0 | endif
-  if b:myLang==0
-    setlocal nospell
-  else
-    execute "setlocal spell spelllang=".get(g:myLangList, b:myLang)
-  endif
-  echo "spell checking language:" g:myLangList[b:myLang]
-endfunction
-command! ToggleSpell call ToggleSpell()
-nmap <silent> <F8> :call ToggleSpell()<CR>
-
-"Spell suggestion under cursor
-nnoremap <silent><F2> :cal SpellSuggest()<CR>
-function! SpellSuggest()
-  let s = substitute(system("echo ".expand("<cword>")." | aspell -a -W2 | grep '^&'"), "^.*:\\s\\(.*\\)\\n", "\\1,", "")
-  if s != ""
-    let slength = strlen(s)
-    let end = 0
-    let i = 0
-    while end != slength
-      let i = i + 1
-      let w = matchstr(s, "^\\%(.\\{-}\\zs[^ ,]\\+\\ze,\\)\\{".i."}")
-      echon "(".i.")".w." "
-      let end = matchend(s, w.",")
-    endwhile
-    echo ""
-    let c = input("Replace with: ")
-    if c =~ "^[1-9]\\d*$" && c > 0 && c <= i
-      execute "normal! ciw".matchstr(s, "^\\%(.\\{-}\\zs[^ ,]\\+\\ze,\\)\\{".c."}")
-    endif
-  else
-    echo "No suggestions"
-  endif
-endfunction
-command! SpellSuggest call SpellSuggest()
+"let g:myLangList=["nospell","en_gb"]
+"function! ToggleSpell()
+"  if !exists( "b:myLang" )
+"    if &spell
+"      let b:myLang=index(g:myLangList, &spelllang)
+"    else
+"      let b:myLang=0
+"    endif
+"  endif
+"  let b:myLang=b:myLang+1
+"  if b:myLang>=len(g:myLangList) | let b:myLang=0 | endif
+"  if b:myLang==0
+"    setlocal nospell
+"  else
+"    execute "setlocal spell spelllang=".get(g:myLangList, b:myLang)
+"  endif
+"  echo "spell checking language:" g:myLangList[b:myLang]
+"endfunction
+"command! ToggleSpell call ToggleSpell()
+"nmap <silent> <F8> :call ToggleSpell()<CR>
+"
+""Spell suggestion under cursor
+"nnoremap <silent><F2> :cal SpellSuggest()<CR>
+"function! SpellSuggest()
+"  let s = substitute(system("echo ".expand("<cword>")." | aspell -a -W2 | grep '^&'"), "^.*:\\s\\(.*\\)\\n", "\\1,", "")
+"  if s != ""
+"    let slength = strlen(s)
+"    let end = 0
+"    let i = 0
+"    while end != slength
+"      let i = i + 1
+"      let w = matchstr(s, "^\\%(.\\{-}\\zs[^ ,]\\+\\ze,\\)\\{".i."}")
+"      echon "(".i.")".w." "
+"      let end = matchend(s, w.",")
+"    endwhile
+"    echo ""
+"    let c = input("Replace with: ")
+"    if c =~ "^[1-9]\\d*$" && c > 0 && c <= i
+"      execute "normal! ciw".matchstr(s, "^\\%(.\\{-}\\zs[^ ,]\\+\\ze,\\)\\{".c."}")
+"    endif
+"  else
+"    echo "No suggestions"
+"  endif
+"endfunction
+"command! SpellSuggest call SpellSuggest()
