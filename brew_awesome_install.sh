@@ -5,3 +5,5 @@ brew install the_silver_searcher
 brew install tmux
 brew install reattach-to-user-namespace
 
+# awesome git client
+brew install tig
