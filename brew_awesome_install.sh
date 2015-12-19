@@ -7,3 +7,6 @@ brew install reattach-to-user-namespace
 
 # awesome git client
 brew install tig
+
+# ssh keychain woho
+brew install keychain
