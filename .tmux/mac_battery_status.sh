@@ -1,1 +1,1 @@
-pmset -g batt | grep InternalBattery | cut -d" " -f3 | sed "s/[^0-9a-zA-Z]*//g"
+pmset -g batt | grep InternalBattery | cut -d" " -f4 | sed "s/[^a-zA-Z]*//g"
