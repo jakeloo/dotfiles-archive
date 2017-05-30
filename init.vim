@@ -34,7 +34,13 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'mxw/vim-jsx'
 NeoBundle 'elzr/vim-json'
+NeoBundle 'junegunn/vim-emoji'
 " NeoBundle 'klen/python-mode'
+NeoBundle 'vim-scripts/DrawIt'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'posva/vim-vue'
+NeoBundle 'sbdchd/neoformat'
+
 
 call neobundle#end()
 
@@ -47,7 +53,11 @@ NeoBundleCheck
 
 " colorsss
 colorscheme base16-ocean
+set termguicolors 		" true color 
 set background=dark
+
+" neovims magic
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 0
 
 """""
 " END OF NEO BUNDLE
@@ -58,6 +68,9 @@ syntax on
 
 " Show lines 
 set number
+
+" show spaces / tabs
+set list
 
 " config to soft tab
 set softtabstop=2 shiftwidth=2 expandtab
@@ -70,7 +83,6 @@ set autoindent
 "when we autoindent, backspace will delete the entire tab width, not just individual spaces
 set smarttab 
 set smartindent
-
 
 " Always show status 
 set laststatus=2
@@ -120,51 +132,47 @@ let g:jsx_ext_required = 0
 
 let g:vim_markdown_folding_disabled=1
 
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|virtualenv)|(\.(swp|ico|git|svn))$'
 
-" Spell Check toggle
-"let g:myLangList=["nospell","en_gb"]
-"function! ToggleSpell()
-"  if !exists( "b:myLang" )
-"    if &spell
-"      let b:myLang=index(g:myLangList, &spelllang)
-"    else
-"      let b:myLang=0
-"    endif
-"  endif
-"  let b:myLang=b:myLang+1
-"  if b:myLang>=len(g:myLangList) | let b:myLang=0 | endif
-"  if b:myLang==0
-"    setlocal nospell
-"  else
-"    execute "setlocal spell spelllang=".get(g:myLangList, b:myLang)
-"  endif
-"  echo "spell checking language:" g:myLangList[b:myLang]
-"endfunction
-"command! ToggleSpell call ToggleSpell()
-"nmap <silent> <F8> :call ToggleSpell()<CR>
-"
-""Spell suggestion under cursor
-"nnoremap <silent><F2> :cal SpellSuggest()<CR>
-"function! SpellSuggest()
-"  let s = substitute(system("echo ".expand("<cword>")." | aspell -a -W2 | grep '^&'"), "^.*:\\s\\(.*\\)\\n", "\\1,", "")
-"  if s != ""
-"    let slength = strlen(s)
-"    let end = 0
-"    let i = 0
-"    while end != slength
-"      let i = i + 1
-"      let w = matchstr(s, "^\\%(.\\{-}\\zs[^ ,]\\+\\ze,\\)\\{".i."}")
-"      echon "(".i.")".w." "
-"      let end = matchend(s, w.",")
-"    endwhile
-"    echo ""
-"    let c = input("Replace with: ")
-"    if c =~ "^[1-9]\\d*$" && c > 0 && c <= i
-"      execute "normal! ciw".matchstr(s, "^\\%(.\\{-}\\zs[^ ,]\\+\\ze,\\)\\{".c."}")
-"    endif
-"  else
-"    echo "No suggestions"
-"  endif
-"endfunction
-"command! SpellSuggest call SpellSuggest()
+set completefunc=emoji#complete
+function! ConvertToEmoji()
+  execute '%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g'
+endfunction
+command! ConvertToEmoji call ConvertToEmoji()
+nmap <silent> <c-e> :call ConvertToEmoji()
+vmap <silent> <c-e> :call ConvertToEmoji()
+
+
+""""""""""""""""""""""""""""""
+" => Go section
+"""""""""""""""""""""""""""""""
+
+au FileType go set nolist
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go setl et ts=8 sw=8 
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
+let g:go_fmt_command = "goimports"
+
+" neo format
+let g:neoformat_javascript_prettier = {
+            \ 'exe': 'prettier',
+            \ 'args': ['--single-quote', '--stdin', '--print-width 140'],
+            \ 'stdin': 1, 
+            \ }
+let g:neoformat_enabled_javascript = ['prettier']
+
+"augroup fmt
+"  autocmd!
+"  autocmd BufWritePre * Neoformat
+"augroup END
+
