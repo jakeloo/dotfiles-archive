@@ -1,55 +1,37 @@
-if has('vim_starting')
-  if &compatible
-    set nocompatible               " Be iMproved
-  endif
-
- " Required:
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" Required:
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-
- " My Bundles here:
- " Refer to |:NeoBundle-examples|.
- " Note: You don't set neobundle setting in .gvimrc!
+call plug#begin('~/.config/nvim/plugged')
 
 " Neobundle
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'gregsexton/gitv.git'
-NeoBundle 'chriskempson/base16-vim'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'Xuyuanp/nerdtree-git-plugin'
-NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'cakebaker/scss-syntax.vim'
-NeoBundle 'mustache/vim-mustache-handlebars'
-NeoBundle 'othree/html5.vim'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'mxw/vim-jsx'
-NeoBundle 'elzr/vim-json'
-NeoBundle 'junegunn/vim-emoji'
-" NeoBundle 'klen/python-mode'
-NeoBundle 'vim-scripts/DrawIt'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'posva/vim-vue'
-NeoBundle 'sbdchd/neoformat'
+Plug 'tpope/vim-fugitive'
+Plug 'gregsexton/gitv.git'
+Plug 'chriskempson/base16-vim'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'plasticboy/vim-markdown'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'othree/html5.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'rking/ag.vim'
+Plug 'bling/vim-airline'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'elzr/vim-json'
+Plug 'junegunn/vim-emoji'
+" Plug 'klen/python-mode'
+Plug 'vim-scripts/DrawIt'
+Plug 'fatih/vim-go'
+Plug 'posva/vim-vue'
+Plug 'sbdchd/neoformat'
 
-
-call neobundle#end()
+call plug#end()
 
  " Required:
 filetype plugin indent on
-
- " If there are uninstalled bundles found on startup,
- " this will conveniently prompt you to install them.
-NeoBundleCheck
 
 " colorsss
 colorscheme base16-ocean
